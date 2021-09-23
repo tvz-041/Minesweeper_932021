@@ -1,5 +1,18 @@
 #include "Cell.h"
 
+std::ostream &operator<<(std::ostream &st, Cell &cell)
+{
+	if (cell.isClosed()) {
+		st << char(254);
+	} else if (cell.hasMine()) {
+		st << char(15);
+	} else {
+		st << cell.number();
+	}
+
+	return st;
+}
+
 Cell::Cell(const int number)
 {
 	init(number);

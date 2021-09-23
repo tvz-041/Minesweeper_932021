@@ -1,12 +1,14 @@
 #ifndef CELL_H
 #define CELL_H
 
+#include <ostream>
 
 class Cell
 {
 public:
 	Cell(const int number = 0);
 	Cell(const bool hasMine);
+	~Cell() = default;
 
 	bool isClosed() const;
 	bool hasMine() const;
@@ -18,7 +20,6 @@ public:
 	void setMine(const bool hasMine);
 	void setNumber(const int number);
 
-
 private:
 	void init(const int number = 0, const bool hasMine = false, const bool isClosed = true);
 
@@ -29,6 +30,8 @@ private:
 	///TODO: name refactor: number -> digit
 	int m_number;
 };
+
+std::ostream &operator<<(std::ostream &st, Cell &cell);
 
 inline bool Cell::isClosed() const
 {
