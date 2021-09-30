@@ -17,7 +17,7 @@ void Cell::init(const int number, const bool hasMine, const bool isClosed)
 {
 	m_isClosed = isClosed;
 	m_hasMine = hasMine;
-	m_number = number;
+	m_digit = number;
 }
 
 //external functions:

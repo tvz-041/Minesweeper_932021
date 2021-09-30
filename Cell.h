@@ -27,8 +27,7 @@ private:
 	bool m_isClosed;
 	bool m_hasMine;
 
-	///TODO: name refactor: number -> digit
-	int m_number;
+	int m_digit;
 };
 
 std::ostream &operator<<(std::ostream &st, Cell &cell);
@@ -45,7 +44,7 @@ inline bool Cell::hasMine() const
 
 inline int Cell::number() const
 {
-	return m_number;
+	return m_digit;
 }
 
 inline void Cell::close()
@@ -70,7 +69,7 @@ inline void Cell::setMine(const bool hasMine)
 
 inline void Cell::setNumber(const int number)
 {
-	m_number = number;
+	m_digit = number;
 }
 
 #endif // CELL_H
