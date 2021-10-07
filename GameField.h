@@ -8,11 +8,11 @@
 class GameField
 {
 public:
-	GameField(const int size = 10);
+    GameField(const int size = 10);
 
 	friend std::ostream &operator<<(std::ostream &st, GameField &gameField);
 private:
-	std::vector<std::vector<Cell>> m_matrix;
+    std::vector<std::vector<Cell>> m_matrix;
 	int m_size;
 };
 
