@@ -6,28 +6,37 @@
 class Cell
 {
 public:
-	Cell(const int number = 0);
-	Cell(const bool hasMine);
+    enum Value
+    {
+        Mine = -1,
+        Digit0,
+        Digit1,
+        Digit2,
+        Digit3,
+        Digit4,
+        Digit5,
+        Digit6,
+        Digit7,
+        Digit8
+    };
+
+    Cell(const Value value = Digit0);
 	~Cell() = default;
 
 	bool isClosed() const;
 	bool hasMine() const;
-	int number() const;
+    Value value() const;
 
 	void close();
 	void open();
-	void setClosed(const bool isClosed);
-	void setMine(const bool hasMine);
-	void setNumber(const int number);
+    void setClosed(const bool isClosed);
+    void setValue(const Value value);
 
 private:
-	void init(const int number = 0, const bool hasMine = false, const bool isClosed = true);
+    void init(const Value value, const bool isClosed = true);
 
-	///TODO: implement enum
 	bool m_isClosed;
-	bool m_hasMine;
-
-	int m_digit;
+    Value m_value;
 };
 
 std::ostream &operator<<(std::ostream &st, Cell &cell);
@@ -39,12 +48,12 @@ inline bool Cell::isClosed() const
 
 inline bool Cell::hasMine() const
 {
-	return m_hasMine;
+    return (m_value == Value::Mine);
 }
 
-inline int Cell::number() const
+inline Cell::Value Cell::value() const
 {
-	return m_digit;
+    return m_value;
 }
 
 inline void Cell::close()
@@ -62,14 +71,9 @@ inline void Cell::setClosed(const bool isClosed)
 	m_isClosed = isClosed;
 }
 
-inline void Cell::setMine(const bool hasMine)
+inline void Cell::setValue(const Value value)
 {
-	m_hasMine = hasMine;
-}
-
-inline void Cell::setNumber(const int number)
-{
-	m_digit = number;
+    m_value = value;
 }
 
 #endif // CELL_H

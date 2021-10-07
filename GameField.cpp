@@ -17,9 +17,8 @@ GameField::GameField(const int size)
 		std::vector<Cell> row;
 
 		for (int columnIndex = 0; columnIndex < m_size; ++columnIndex) {
-			Cell cell(rand() % 10);
-			cell.setClosed(rand() % 2);
-			cell.setMine(rand() % 2);
+            Cell cell(Cell::Value(rand() % 10 - 1));
+            cell.setClosed(rand() % 2);
 
 			row.push_back(cell);
 		}

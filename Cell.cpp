@@ -1,23 +1,16 @@
 #include "Cell.h"
 
-Cell::Cell(const int number)
+Cell::Cell(const Value value)
 {
-	init(number);
+    init(value);
 }
-
-Cell::Cell(const bool hasMine)
-{
-	init(0, hasMine);
-}
-
 
 //private:
 
-void Cell::init(const int number, const bool hasMine, const bool isClosed)
+void Cell::init(const Value value, const bool isClosed)
 {
-	m_isClosed = isClosed;
-	m_hasMine = hasMine;
-	m_digit = number;
+    m_isClosed = isClosed;
+    m_value = value;
 }
 
 //external functions:
@@ -29,7 +22,7 @@ std::ostream &operator<<(std::ostream &st, Cell &cell)
 	} else if (cell.hasMine()) {
 		st << char(15);
 	} else {
-		st << cell.number();
+        st << cell.value();
 	}
 
 	return st;
