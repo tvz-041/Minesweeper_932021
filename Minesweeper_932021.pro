@@ -12,6 +12,7 @@ SOURCES += \
         Cell.cpp \
         CellWidget.cpp \
         GameField.cpp \
+        GameFieldWidget.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -22,4 +23,5 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 HEADERS += \
     Cell.h \
     CellWidget.h \
-    GameField.h
+    GameField.h \
+    GameFieldWidget.h 
