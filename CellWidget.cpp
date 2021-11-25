@@ -3,18 +3,62 @@
 CellWidget::CellWidget(const Cell cell)
 {
     m_cell = cell;
+    connect(this, &CellWidget::clicked, this, &CellWidget::open);
+    setClosedStyleSheet();
 
-    switch (m_cell.value()) {
-        case Cell::Mine:
-            //TODO: implement
-        break;
+    //TODO: Добавить настройку опций ниже
+    setFixedSize(40, 40);
+    QFont font = this->font();
+    font.setPointSize(14);
+    this->setFont(font);
+}
 
-        case Cell::Digit0:
-            //TODO: implement
-        break;
+void CellWidget::setOpenedStyleSheet()
+{
+    this->setStyleSheet(
+        "QPushButton {"
+            "border: 0px;"
+            "background-color: white;"
+        "}"
+    );
+}
 
-        default:
-            this->setText(QString::number(m_cell.value()));
-        break;
+void CellWidget::setClosedStyleSheet()
+{
+    this->setStyleSheet(
+        "QPushButton {"
+            "background-color: lightgray;"
+        "}"
+    );
+}
+
+void CellWidget::open()
+{
+    if (m_cell.isClosed()) {
+        m_cell.open();
+
+        switch (m_cell.value()) {
+            case Cell::Mine:
+                this->setText("*");
+            break;
+
+            case Cell::Digit0:
+            break;
+
+            default:
+                this->setText(QString::number(m_cell.value()));
+            break;
+        }
+
+        this->setOpenedStyleSheet();
+    }
+}
+
+void CellWidget::close()
+{
+    if (!m_cell.isClosed()) {
+        this->setText("");
+
+        this->setClosedStyleSheet();
     }
 }
