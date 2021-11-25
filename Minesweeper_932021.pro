@@ -13,6 +13,7 @@ SOURCES += \
         CellWidget.cpp \
         GameField.cpp \
         GameFieldWidget.cpp \
+        GameWindow.cpp \
         main.cpp
 
 # Default rules for deployment.
@@ -24,4 +25,8 @@ HEADERS += \
     Cell.h \
     CellWidget.h \
     GameField.h \
-    GameFieldWidget.h 
+    GameFieldWidget.h \
+    GameWindow.h
+
+FORMS += \
+    GameWindow.ui
