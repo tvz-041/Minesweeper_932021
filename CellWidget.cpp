@@ -1,9 +1,10 @@
+#include <QMouseEvent>
+
 #include "CellWidget.h"
 
 CellWidget::CellWidget(const Cell cell)
 {
     m_cell = cell;
-    connect(this, &CellWidget::clicked, this, &CellWidget::open);
     setClosedStyleSheet();
 
     //TODO: Добавить настройку опций ниже
@@ -28,6 +29,15 @@ void CellWidget::setClosedStyleSheet()
     this->setStyleSheet(
         "QPushButton {"
             "background-color: lightgray;"
+        "}"
+    );
+}
+
+void CellWidget::setFlaggedStyleSheet()
+{
+    this->setStyleSheet(
+        "QPushButton {"
+            "background-color: darkred;"
         "}"
     );
 }
@@ -60,5 +70,49 @@ void CellWidget::close()
         this->setText("");
 
         this->setClosedStyleSheet();
+    }
+}
+
+void CellWidget::mousePressEvent(QMouseEvent *event)
+{
+    switch (event->button()) {
+        case Qt::MouseButton::LeftButton:
+            if (!m_cell.hasFlag()) {
+                QPushButton::mousePressEvent(event);
+            }
+        break;
+
+        case Qt::MouseButton::RightButton:
+            if (m_cell.isClosed()) {
+                if (m_cell.hasFlag()) {
+                    m_cell.setFlag(false);
+                    setClosedStyleSheet();
+                } else {
+                    m_cell.setFlag(true);
+                    setFlaggedStyleSheet();
+                }
+            }
+
+            QPushButton::mousePressEvent(event);
+        break;
+
+        default:
+            QPushButton::mousePressEvent(event);
+        break;
+    }
+}
+
+void CellWidget::mouseReleaseEvent(QMouseEvent *event)
+{
+    switch (event->button()) {
+        case Qt::MouseButton::LeftButton:
+            if (!m_cell.hasFlag()) {
+                open();
+            }
+        break;
+
+        default:
+            QPushButton::mouseReleaseEvent(event);
+        break;
     }
 }

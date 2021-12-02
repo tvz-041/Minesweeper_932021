@@ -14,6 +14,7 @@ public:
 
     void setOpenedStyleSheet();
     void setClosedStyleSheet();
+    void setFlaggedStyleSheet();
 
 public slots:
     void open();
@@ -21,6 +22,10 @@ public slots:
 
 signals:
     void opened(Cell::Value cellValue);
+
+protected:
+    void mousePressEvent(QMouseEvent *event);
+    void mouseReleaseEvent(QMouseEvent *event);
 
 private:
     Cell m_cell;

@@ -24,6 +24,7 @@ public:
 	~Cell() = default;
 
 	bool isClosed() const;
+    bool hasFlag() const;
 	bool hasMine() const;
     Value value() const;
 
@@ -31,11 +32,13 @@ public:
 	void open();
     void setClosed(const bool isClosed);
     void setValue(const Value value);
+    void setFlag(const bool flag);
 
 private:
-    void init(const Value value, const bool isClosed = true);
+    void init(const Value value, const bool isClosed = true, const bool hasFlag = false);
 
 	bool m_isClosed;
+    bool m_hasFlag;
     Value m_value;
 };
 
@@ -44,6 +47,11 @@ std::ostream &operator<<(std::ostream &st, Cell &cell);
 inline bool Cell::isClosed() const
 {
 	return m_isClosed;
+}
+
+inline bool Cell::hasFlag() const
+{
+    return m_hasFlag;
 }
 
 inline bool Cell::hasMine() const
@@ -69,6 +77,11 @@ inline void Cell::open()
 inline void Cell::setClosed(const bool isClosed)
 {
 	m_isClosed = isClosed;
+}
+
+inline void Cell::setFlag(const bool flag)
+{
+    m_hasFlag = flag;
 }
 
 inline void Cell::setValue(const Value value)

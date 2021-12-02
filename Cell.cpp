@@ -7,8 +7,9 @@ Cell::Cell(const Value value)
 
 //private:
 
-void Cell::init(const Value value, const bool isClosed)
+void Cell::init(const Value value, const bool isClosed, const bool hasFlag)
 {
+    m_hasFlag = hasFlag;
     m_isClosed = isClosed;
     m_value = value;
 }
