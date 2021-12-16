@@ -18,6 +18,8 @@ public:
     void open();
     void close();
 
+    void reset();
+
 signals:
     void cellOpened(Cell::Value cellValue);
 

@@ -45,7 +45,7 @@
          <widget class="QLCDNumber" name="lcdNumber_flagsLeft"/>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButton_6">
+         <widget class="QPushButton" name="pushButton_newGame">
           <property name="text">
            <string>Новая игра</string>
           </property>

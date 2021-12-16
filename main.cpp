@@ -3,12 +3,14 @@
 #include "Cell.h"
 #include "GameWindow.h"
 
+#include <iostream>
+
 int main(int argc, char *argv[])
 {
-    QApplication a(argc, argv);
+    QApplication app(argc, argv);
 
-    GameWindow widget;
-    widget.show();
+    GameWindow gameWindow;
+    gameWindow.show();
 
-    return a.exec();
+    return app.exec();
 }

@@ -51,3 +51,14 @@ void GameFieldWidget::close()
         }
     }
 }
+
+void GameFieldWidget::reset()
+{
+    for (int i = 0; i < m_size; ++i) {
+        for (int j = 0; j < m_size; ++j) {
+            m_cells[i][j]->close();
+            m_cells[i][j]->setFlag(false);
+            m_cells[i][j]->setValue(Cell::Value(rand() % 10 - 1));
+        }
+    }
+}

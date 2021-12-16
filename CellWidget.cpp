@@ -42,6 +42,39 @@ void CellWidget::setFlaggedStyleSheet()
     );
 }
 
+void CellWidget::setFlag(const bool isFlagged)
+{
+    if (m_cell.hasFlag() == isFlagged) {
+        return;
+    }
+
+    if (isFlagged) {
+        m_cell.setFlag(true);
+        setFlaggedStyleSheet();
+    } else {
+        m_cell.setFlag(false);
+
+        if (m_cell.isClosed()) {
+            setClosedStyleSheet();
+        } else {
+            setOpenedStyleSheet();
+        }
+    }
+}
+
+void CellWidget::setValue(Cell::Value cellValue)
+{
+    if (m_cell.value() == cellValue) {
+        return;
+    }
+
+    m_cell.setValue(cellValue);
+
+    if (!m_cell.isClosed()) {
+        update();
+    }
+}
+
 void CellWidget::open()
 {
     if (m_cell.isClosed()) {
@@ -61,12 +94,14 @@ void CellWidget::open()
         }
 
         this->setOpenedStyleSheet();
+        emit opened(this->m_cell.value());
     }
 }
 
 void CellWidget::close()
 {
     if (!m_cell.isClosed()) {
+        m_cell.close();
         this->setText("");
 
         this->setClosedStyleSheet();
@@ -84,13 +119,7 @@ void CellWidget::mousePressEvent(QMouseEvent *event)
 
         case Qt::MouseButton::RightButton:
             if (m_cell.isClosed()) {
-                if (m_cell.hasFlag()) {
-                    m_cell.setFlag(false);
-                    setClosedStyleSheet();
-                } else {
-                    m_cell.setFlag(true);
-                    setFlaggedStyleSheet();
-                }
+                setFlag(!m_cell.hasFlag());
             }
 
             QPushButton::mousePressEvent(event);
