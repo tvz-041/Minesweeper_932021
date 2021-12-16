@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+#include "Cell.h"
+
 class GameFieldWidget;
 
 namespace Ui {
@@ -19,6 +21,9 @@ public:
 
 public slots:
     void startNewGame();
+
+private slots:
+    void onCellOpened(Cell::Value cellValue);
 
 private:
     Ui::GameWindow *ui;

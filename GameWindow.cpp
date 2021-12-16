@@ -14,6 +14,7 @@ GameWindow::GameWindow(QWidget *parent) :
     m_gameField = new GameFieldWidget(10, this);
     ui->horizontalLayout_gameField->insertWidget(1, m_gameField);
 
+    connect(m_gameField, &GameFieldWidget::cellOpened, this, &GameWindow::onCellOpened);
     connect(ui->pushButton_newGame, &QPushButton::clicked, this, &GameWindow::startNewGame);
 
     this->adjustSize();
@@ -29,4 +30,13 @@ void GameWindow::startNewGame()
     m_gameField->setEnabled(true);
     m_gameField->reset();
 }
-
+
+void GameWindow::onCellOpened(Cell::Value cellValue)
+{
+    if (cellValue == Cell::Mine) {
+        m_gameField->setDisabled(true);
+        QMessageBox::critical(this, "Конец игры", "Вы подорвались на мине!");
+    } else {
+        //TODO: начислить очки
+    }
+}
