@@ -29,6 +29,7 @@ private:
     Ui::GameWindow *ui;
     int m_size;
     int m_minesCount;
+    int m_score;
 
     GameFieldWidget *m_gameField = nullptr;
 };
