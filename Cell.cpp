@@ -1,6 +1,8 @@
 #include "Cell.h"
 
-Cell::Cell(const Value value)
+Cell::Cell(const int row, const int column, const Value value) :
+    m_row(row),
+    m_column(column)
 {
     init(value);
 }

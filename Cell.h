@@ -20,19 +20,23 @@ public:
         Digit8
     };
 
-    Cell(const Value value = Digit0);
+    Cell(const int row, const int column, const Value value = Digit0);
 	~Cell() = default;
 
-	bool isClosed() const;
-    bool hasFlag() const;
-	bool hasMine() const;
-    Value value() const;
+    inline bool isClosed() const;
+    inline bool hasFlag() const;
+    inline bool hasMine() const;
+    inline Value value() const;
 
-	void close();
-	void open();
-    void setClosed(const bool isClosed);
-    void setValue(const Value value);
-    void setFlag(const bool flag);
+    inline int row() const;
+    inline int column() const;
+
+    inline void close();
+    inline void open();
+
+    inline void setClosed(const bool isClosed);
+    inline void setValue(const Value value);
+    inline void setFlag(const bool flag);
 
 private:
     void init(const Value value, const bool isClosed = true, const bool hasFlag = false);
@@ -40,6 +44,9 @@ private:
 	bool m_isClosed;
     bool m_hasFlag;
     Value m_value;
+
+    int m_row;
+    int m_column;
 };
 
 std::ostream &operator<<(std::ostream &st, Cell &cell);
@@ -62,6 +69,16 @@ inline bool Cell::hasMine() const
 inline Cell::Value Cell::value() const
 {
     return m_value;
+}
+
+inline int Cell::row() const
+{
+    return m_row;
+}
+
+inline int Cell::column() const
+{
+    return m_column;
 }
 
 inline void Cell::close()

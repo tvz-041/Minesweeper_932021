@@ -2,9 +2,9 @@
 
 #include "CellWidget.h"
 
-CellWidget::CellWidget(const Cell cell)
+CellWidget::CellWidget(const Cell cell) :
+    m_cell(cell)
 {
-    m_cell = cell;
     setClosedStyleSheet();
 
     //TODO: Добавить настройку опций ниже
@@ -94,7 +94,6 @@ void CellWidget::open()
         }
 
         this->setOpenedStyleSheet();
-        emit opened(this->m_cell.value());
     }
 }
 
@@ -136,6 +135,7 @@ void CellWidget::mouseReleaseEvent(QMouseEvent *event)
     switch (event->button()) {
         case Qt::MouseButton::LeftButton:
             if (!m_cell.hasFlag()) {
+                emit opened(this);
                 open();
             }
         break;

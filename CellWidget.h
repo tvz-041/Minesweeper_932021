@@ -12,6 +12,12 @@ class CellWidget : public QPushButton
 public:
     CellWidget(const Cell cell);
 
+    inline bool isClosed() const;
+    inline Cell::Value value() const;
+
+    inline int row() const;
+    inline int column() const;
+
     void setOpenedStyleSheet();
     void setClosedStyleSheet();
     void setFlaggedStyleSheet();
@@ -24,7 +30,7 @@ public slots:
     void close();
 
 signals:
-    void opened(Cell::Value cellValue);
+    void opened(CellWidget *cell);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -33,5 +39,27 @@ protected:
 private:
     Cell m_cell;
 };
+
+
+
+inline bool CellWidget::isClosed() const
+{
+    return m_cell.isClosed();
+}
+
+inline Cell::Value CellWidget::value() const
+{
+    return m_cell.value();
+}
+
+inline int CellWidget::row() const
+{
+    return m_cell.row();
+}
+
+inline int CellWidget::column() const
+{
+    return m_cell.column();
+}
 
 #endif // CELLWIDGET_H
