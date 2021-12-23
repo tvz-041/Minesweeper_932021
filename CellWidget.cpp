@@ -118,7 +118,7 @@ void CellWidget::mousePressEvent(QMouseEvent *event)
 
         case Qt::MouseButton::RightButton:
             if (m_cell.isClosed()) {
-                setFlag(!m_cell.hasFlag());
+                emit flagStateChanged(*this);
             }
 
             QPushButton::mousePressEvent(event);
@@ -135,8 +135,8 @@ void CellWidget::mouseReleaseEvent(QMouseEvent *event)
     switch (event->button()) {
         case Qt::MouseButton::LeftButton:
             if (!m_cell.hasFlag()) {
-                emit opened(this);
                 open();
+                emit opened(this);
             }
         break;
 

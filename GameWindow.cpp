@@ -16,10 +16,13 @@ GameWindow::GameWindow(QWidget *parent) :
     m_minesCount = 3;
     m_score = 0;
     m_timerId = 0;
+    ui->lcdNumber_flagsLeft->display(m_minesCount);
+
     m_gameField = new GameFieldWidget(m_size, m_minesCount, this);
     ui->horizontalLayout_gameField->insertWidget(1, m_gameField);
 
     connect(m_gameField, &GameFieldWidget::cellOpened, this, &GameWindow::onCellOpened);
+    connect(m_gameField, &GameFieldWidget::flagsCountChanged, this, &GameWindow::onFlagsCountChanged);
     connect(ui->pushButton_newGame, &QPushButton::clicked, this, &GameWindow::startNewGame);
 
     this->adjustSize();
@@ -35,6 +38,7 @@ void GameWindow::startNewGame()
     m_score = 0;
     stopTimer();
     ui->lcdNumber_timer->display(0);
+    ui->lcdNumber_flagsLeft->display(m_minesCount);
     m_gameField->reset();
     m_gameField->setEnabled(true);
 }
@@ -48,15 +52,15 @@ void GameWindow::stopGame()
 void GameWindow::timerEvent(QTimerEvent *event)
 {
     if (event->timerId() == m_timerId) {
-        ui->lcdNumber_timer->display(ui->lcdNumber_timer->intValue() + 1);
+        if (ui->lcdNumber_timer->intValue() < 99999) {
+            ui->lcdNumber_timer->display(ui->lcdNumber_timer->intValue() + 1);
+        }
     }
 }
 
 void GameWindow::onCellOpened(Cell::Value cellValue)
 {
-    if (m_score == 0) {
-        m_timerId = startTimer(1000);
-    }
+    startTimer();
 
     if (cellValue == Cell::Mine) {
         stopGame();
@@ -68,6 +72,19 @@ void GameWindow::onCellOpened(Cell::Value cellValue)
             stopGame();
             QMessageBox::information(this, "Конец игры", "Вы выиграли!");
         }
+    }
+}
+
+void GameWindow::onFlagsCountChanged(const int flagsLeft)
+{
+    startTimer();
+    ui->lcdNumber_flagsLeft->display(flagsLeft);
+}
+
+void GameWindow::startTimer()
+{
+    if (m_timerId == 0) {
+        m_timerId = QObject::startTimer(1000);
     }
 }
 

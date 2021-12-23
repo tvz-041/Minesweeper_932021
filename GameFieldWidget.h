@@ -23,9 +23,11 @@ public:
 
 signals:
     void cellOpened(Cell::Value cellValue);
+    void flagsCountChanged(const int flagsLeft);
 
 private slots:
     void onCellOpened(CellWidget *cell);
+    void onCellFlagChanged(CellWidget &cell);
 
 private:
     void tryAddNeighbourCell(const int row, const int column);
@@ -40,6 +42,7 @@ private:
     int m_hasOpenedCells = false;
     int m_size;
     int m_minesCount;
+    int m_flagsLeft;
     QVector<QVector<CellWidget *>> m_cells;
 
     QStack<CellWidget *> m_unprocessedCells;

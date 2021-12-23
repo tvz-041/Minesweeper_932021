@@ -19,6 +19,8 @@ GameFieldWidget::GameFieldWidget(const int size, const int minesCount, QWidget *
         m_minesCount = m_size;
     }
 
+    m_flagsLeft = m_minesCount;
+
     QGridLayout *layout = new QGridLayout;
 
     for (int i = 0; i < m_size; ++i) {
@@ -27,6 +29,7 @@ GameFieldWidget::GameFieldWidget(const int size, const int minesCount, QWidget *
         for (int j = 0; j < m_size; ++j) {
             CellWidget *cellWidget = new CellWidget(Cell(i, j));
             connect(cellWidget, &CellWidget::opened, this, &GameFieldWidget::onCellOpened);
+            connect(cellWidget, &CellWidget::flagStateChanged, this, &GameFieldWidget::onCellFlagChanged);
 
             layout->addWidget(cellWidget, i, j);
             row.append(cellWidget);
@@ -68,6 +71,7 @@ void GameFieldWidget::reset()
     }
 
     m_hasOpenedCells = false;
+    m_flagsLeft = m_minesCount;
 }
 
 //private slots:
@@ -80,6 +84,19 @@ void GameFieldWidget::onCellOpened(CellWidget *cell)
     }
 
     tryOpenCells(cell);
+}
+
+void GameFieldWidget::onCellFlagChanged(CellWidget &cell)
+{
+    if (cell.hasFlag()) { //Снимаем флаг, если он уже стоит
+        m_flagsLeft++;
+        flagsCountChanged(m_flagsLeft);
+        cell.setFlag(false);
+    } else if (m_flagsLeft > 0) { //Иначе, если можем, ставим флаг
+        m_flagsLeft--;
+        flagsCountChanged(m_flagsLeft);
+        cell.setFlag(true);
+    }
 }
 
 //private:

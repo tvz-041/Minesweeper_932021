@@ -13,6 +13,7 @@ public:
     CellWidget(const Cell cell);
 
     inline bool isClosed() const;
+    inline bool hasFlag() const;
     inline Cell::Value value() const;
 
     inline int row() const;
@@ -31,6 +32,7 @@ public slots:
 
 signals:
     void opened(CellWidget *cell);
+    void flagStateChanged(CellWidget &cell);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
@@ -45,6 +47,11 @@ private:
 inline bool CellWidget::isClosed() const
 {
     return m_cell.isClosed();
+}
+
+inline bool CellWidget::hasFlag() const
+{
+    return m_cell.hasFlag();
 }
 
 inline Cell::Value CellWidget::value() const

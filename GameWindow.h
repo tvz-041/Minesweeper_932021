@@ -28,8 +28,10 @@ protected:
 
 private slots:
     void onCellOpened(Cell::Value cellValue);
+    void onFlagsCountChanged(const int flagsLeft);
 
 private:
+    void startTimer();
     void stopTimer();
 
     Ui::GameWindow *ui;
