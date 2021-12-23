@@ -32,7 +32,7 @@ public slots:
 
 signals:
     void opened(CellWidget *cell);
-    void flagStateChanged(CellWidget &cell);
+    void flagStateChangeNeeded(CellWidget &cell);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;

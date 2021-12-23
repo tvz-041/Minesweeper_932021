@@ -29,7 +29,7 @@ GameFieldWidget::GameFieldWidget(const int size, const int minesCount, QWidget *
         for (int j = 0; j < m_size; ++j) {
             CellWidget *cellWidget = new CellWidget(Cell(i, j));
             connect(cellWidget, &CellWidget::opened, this, &GameFieldWidget::onCellOpened);
-            connect(cellWidget, &CellWidget::flagStateChanged, this, &GameFieldWidget::onCellFlagChanged);
+            connect(cellWidget, &CellWidget::flagStateChangeNeeded, this, &GameFieldWidget::onCellFlagChangeNeeded);
 
             layout->addWidget(cellWidget, i, j);
             row.append(cellWidget);
@@ -86,7 +86,7 @@ void GameFieldWidget::onCellOpened(CellWidget *cell)
     tryOpenCells(cell);
 }
 
-void GameFieldWidget::onCellFlagChanged(CellWidget &cell)
+void GameFieldWidget::onCellFlagChangeNeeded(CellWidget &cell)
 {
     if (cell.hasFlag()) { //Снимаем флаг, если он уже стоит
         m_flagsLeft++;

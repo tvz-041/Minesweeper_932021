@@ -27,7 +27,7 @@ signals:
 
 private slots:
     void onCellOpened(CellWidget *cell);
-    void onCellFlagChanged(CellWidget &cell);
+    void onCellFlagChangeNeeded(CellWidget &cell);
 
 private:
     void addNeighbourCellToOpeningQueue(const int row, const int column);
