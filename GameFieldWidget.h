@@ -1,7 +1,7 @@
 #ifndef GAMEFIELDWIDGET_H
 #define GAMEFIELDWIDGET_H
 
-#include <QStack>
+#include <QQueue>
 #include <QWidget>
 
 #include "Cell.h"
@@ -30,11 +30,11 @@ private slots:
     void onCellFlagChanged(CellWidget &cell);
 
 private:
-    void tryAddNeighbourCell(const int row, const int column);
-    void tryAddNeighbourCells(CellWidget *cell);
+    void addNeighbourCellToOpeningQueue(const int row, const int column);
+    void addNeighbourCellsToOpeningQueue(CellWidget *cell);
 
-    void tryIncreaseNeighbourCellValue(const int row, const int column);
-    void tryIncreaseNeighbourCellsValues(CellWidget *cell);
+    void increaseNeighbourCellValue(const int row, const int column);
+    void increaseNeighbourCellsValues(CellWidget *cell);
 
     void generateCellValues(CellWidget *startCell);
     void tryOpenCells(CellWidget *startCell);
@@ -45,7 +45,7 @@ private:
     int m_flagsLeft;
     QVector<QVector<CellWidget *>> m_cells;
 
-    QStack<CellWidget *> m_unprocessedCells;
+    QQueue<CellWidget *> m_cellOpeningQueue;
 };
 
 #endif // GAMEFIELDWIDGET_H

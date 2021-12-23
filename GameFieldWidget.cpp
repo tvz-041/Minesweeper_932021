@@ -114,38 +114,38 @@ void GameFieldWidget::generateCellValues(CellWidget *startCell)
     for (int i = 0; i < m_minesCount; ++i) {
         CellWidget *minedCell = freeCells.takeAt(rand() % freeCells.size());
         minedCell->setValue(Cell::Value::Mine);
-        tryIncreaseNeighbourCellsValues(minedCell);
+        increaseNeighbourCellsValues(minedCell);
     }
 }
 
-void GameFieldWidget::tryAddNeighbourCell(const int row, const int column)
+void GameFieldWidget::addNeighbourCellToOpeningQueue(const int row, const int column)
 {
     if (row > -1 && row < m_size && column > -1 && column < m_size) {
         CellWidget *cell = m_cells[row][column];
 
-        if (cell->isClosed() && !m_unprocessedCells.contains(cell)) {
-            m_unprocessedCells.append(cell);
+        if (cell->isClosed() && !m_cellOpeningQueue.contains(cell)) {
+            m_cellOpeningQueue.enqueue(cell);
         }
     }
 }
 
-void GameFieldWidget::tryAddNeighbourCells(CellWidget *cell)
+void GameFieldWidget::addNeighbourCellsToOpeningQueue(CellWidget *cell)
 {
     if (cell->value() == Cell::Digit0) {
-        tryAddNeighbourCell(cell->row() - 1, cell->column() - 1);
-        tryAddNeighbourCell(cell->row() - 1, cell->column());
-        tryAddNeighbourCell(cell->row() - 1, cell->column() + 1);
+        addNeighbourCellToOpeningQueue(cell->row() - 1, cell->column() - 1);
+        addNeighbourCellToOpeningQueue(cell->row() - 1, cell->column());
+        addNeighbourCellToOpeningQueue(cell->row() - 1, cell->column() + 1);
 
-        tryAddNeighbourCell(cell->row(), cell->column() - 1);
-        tryAddNeighbourCell(cell->row(), cell->column() + 1);
+        addNeighbourCellToOpeningQueue(cell->row(), cell->column() - 1);
+        addNeighbourCellToOpeningQueue(cell->row(), cell->column() + 1);
 
-        tryAddNeighbourCell(cell->row() + 1, cell->column() - 1);
-        tryAddNeighbourCell(cell->row() + 1, cell->column());
-        tryAddNeighbourCell(cell->row() + 1, cell->column() + 1);
+        addNeighbourCellToOpeningQueue(cell->row() + 1, cell->column() - 1);
+        addNeighbourCellToOpeningQueue(cell->row() + 1, cell->column());
+        addNeighbourCellToOpeningQueue(cell->row() + 1, cell->column() + 1);
     }
 }
 
-void GameFieldWidget::tryIncreaseNeighbourCellValue(const int row, const int column)
+void GameFieldWidget::increaseNeighbourCellValue(const int row, const int column)
 {
     if (row > -1 && row < m_size && column > -1 && column < m_size) {
         CellWidget *cell = m_cells[row][column];
@@ -156,28 +156,28 @@ void GameFieldWidget::tryIncreaseNeighbourCellValue(const int row, const int col
     }
 }
 
-void GameFieldWidget::tryIncreaseNeighbourCellsValues(CellWidget *cell)
+void GameFieldWidget::increaseNeighbourCellsValues(CellWidget *cell)
 {
-    tryIncreaseNeighbourCellValue(cell->row() - 1, cell->column() - 1);
-    tryIncreaseNeighbourCellValue(cell->row() - 1, cell->column());
-    tryIncreaseNeighbourCellValue(cell->row() - 1, cell->column() + 1);
+    increaseNeighbourCellValue(cell->row() - 1, cell->column() - 1);
+    increaseNeighbourCellValue(cell->row() - 1, cell->column());
+    increaseNeighbourCellValue(cell->row() - 1, cell->column() + 1);
 
-    tryIncreaseNeighbourCellValue(cell->row(), cell->column() - 1);
-    tryIncreaseNeighbourCellValue(cell->row(), cell->column() + 1);
+    increaseNeighbourCellValue(cell->row(), cell->column() - 1);
+    increaseNeighbourCellValue(cell->row(), cell->column() + 1);
 
-    tryIncreaseNeighbourCellValue(cell->row() + 1, cell->column() - 1);
-    tryIncreaseNeighbourCellValue(cell->row() + 1, cell->column());
-    tryIncreaseNeighbourCellValue(cell->row() + 1, cell->column() + 1);
+    increaseNeighbourCellValue(cell->row() + 1, cell->column() - 1);
+    increaseNeighbourCellValue(cell->row() + 1, cell->column());
+    increaseNeighbourCellValue(cell->row() + 1, cell->column() + 1);
 }
 
 void GameFieldWidget::tryOpenCells(CellWidget *startCell)
 {
-    m_unprocessedCells.append(startCell);
+    m_cellOpeningQueue.enqueue(startCell);
 
-    while (!m_unprocessedCells.isEmpty()) {
-        CellWidget *cell = m_unprocessedCells.pop();
+    while (!m_cellOpeningQueue.isEmpty()) {
+        CellWidget *cell = m_cellOpeningQueue.dequeue();
         cell->open();
         emit cellOpened(cell->value());
-        tryAddNeighbourCells(cell);
+        addNeighbourCellsToOpeningQueue(cell);
     }
 }
