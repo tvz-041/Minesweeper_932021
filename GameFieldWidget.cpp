@@ -123,7 +123,7 @@ void GameFieldWidget::addNeighbourCellToOpeningQueue(const int row, const int co
     if (row > -1 && row < m_size && column > -1 && column < m_size) {
         CellWidget *cell = m_cells[row][column];
 
-        if (cell->isClosed() && !m_cellOpeningQueue.contains(cell)) {
+        if (cell->isClosed() && !cell->hasFlag() && !m_cellOpeningQueue.contains(cell)) {
             m_cellOpeningQueue.enqueue(cell);
         }
     }
