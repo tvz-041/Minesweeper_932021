@@ -15,6 +15,7 @@ GameWindow::GameWindow(QWidget *parent) :
     m_size = 10;
     m_minesCount = 3;
     m_score = 0;
+    m_timerId = 0;
     m_gameField = new GameFieldWidget(m_size, m_minesCount, this);
     ui->horizontalLayout_gameField->insertWidget(1, m_gameField);
 
@@ -32,21 +33,48 @@ GameWindow::~GameWindow()
 void GameWindow::startNewGame()
 {
     m_score = 0;
-    m_gameField->setEnabled(true);
+    stopTimer();
+    ui->lcdNumber_timer->display(0);
     m_gameField->reset();
+    m_gameField->setEnabled(true);
+}
+
+void GameWindow::stopGame()
+{
+    m_gameField->setDisabled(true);
+    stopTimer();
+}
+
+void GameWindow::timerEvent(QTimerEvent *event)
+{
+    if (event->timerId() == m_timerId) {
+        ui->lcdNumber_timer->display(ui->lcdNumber_timer->intValue() + 1);
+    }
 }
 
 void GameWindow::onCellOpened(Cell::Value cellValue)
 {
+    if (m_score == 0) {
+        m_timerId = startTimer(1000);
+    }
+
     if (cellValue == Cell::Mine) {
-        m_gameField->setDisabled(true);
+        stopGame();
         QMessageBox::critical(this, "Конец игры", "Вы подорвались на мине!");
     } else {
         ++m_score;
 
         if (m_score == m_size * m_size - m_minesCount) {
-            m_gameField->setDisabled(true);
+            stopGame();
             QMessageBox::information(this, "Конец игры", "Вы выиграли!");
         }
+    }
+}
+
+void GameWindow::stopTimer()
+{
+    if (m_timerId != 0) {
+        killTimer(m_timerId);
+        m_timerId = 0;
     }
 }
