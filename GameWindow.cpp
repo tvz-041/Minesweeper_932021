@@ -1,3 +1,4 @@
+#include <QDebug>
 #include <QMessageBox>
 
 #include "GameFieldWidget.h"
@@ -11,7 +12,9 @@ GameWindow::GameWindow(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    m_gameField = new GameFieldWidget(10, this);
+    m_size = 10;
+    m_minesCount = 3;
+    m_gameField = new GameFieldWidget(m_size, m_minesCount, this);
     ui->horizontalLayout_gameField->insertWidget(1, m_gameField);
 
     connect(m_gameField, &GameFieldWidget::cellOpened, this, &GameWindow::onCellOpened);
